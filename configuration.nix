@@ -99,6 +99,10 @@
 
   # Root password. Generate the hash with: mkpasswd -m sha-512
   users.users.root.hashedPassword = "$6$VuKAyTFzw81H8Qhv$CDAkOeusF0L/b7hWW1geYtDTQ1QtdFq9kQLsR1bVc6zd9KnkPHHLBlja9BCNpTBIVKMzq78Rnfn.VpugznNHn.";
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLem/1L0O0y+y5H/ka6ewk2weuohwG2JMGbv49xbSHIYulM9hFw3brPD2hTTDqkRHu+mrDwH9oFj6uQBhTlGTJQ1VEdY9wISRG9mGsYjT2q4ijWwwMQrNkyXYEBXZRnNIh7dWElqH8S8shAY8fAebPlFNfruIMA9Q/+aUWWFfVU9lXIKEEe5g/b8vHOv6CivetlkXrjcziFS/JZmYdtANg7hD0otsVZkaKITFivIXleYHOYoXIoaoocj5y8W0l3ewN81Mj73cimqNZBpSRcf0M4X73+R25U9HhEewsXH5ZzyVIQOowhVUwWlNm5VH9V1FUAGQPTAMuVe++gjyO+fTl matthias@lorien"
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAlsP0Fzi0ncnicjwlOdrg5TOAcWdWnu15e+D/gWMAMk48W+U15AQ3o4wWtvvztety5RbryR7aceuHTdZ0JBtnzdBpo5Fqpv+TP7MJ4Cb1i6fJ2NFGeNxi7EJzFJPp99Ovmg8efH5zOqiPHbNu8nAJgpGfYTTrRU8B2ccrvn1gYgRgSzakOLuZE80Hs1jaMCj/XycxWjdH0CMmKhMRPqGgWRdc3rnI+eJzzB0I133fiLhQXHSEcNjSZRlUssp5+Pc6wGo75eyiaprFzIa8yNpY1tRjYNV7YVB70VQk3W6+ZCOqM9KBbbiAiItupN3FkYKzDwbP+j2RzuLiMuIOSLVF rsa-key-20260629"
+  ];
 
   users.users = {
     matthias = {
