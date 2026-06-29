@@ -28,7 +28,7 @@ into the NixOS installer — handy when you only have SSH to an existing OS).
 2. `sudo -i`, then run (⚠️ **wipes the target disk** — check the device with `lsblk`):
 
    ```bash
-   nix --extra-experimental-features 'nix-command flakes' \
+   nix --extra-experimental-features 'nix-command flakes' --refresh \
      run 'github:nix-community/disko/latest#disko-install' -- \
      --flake 'github:mortegro/kjp-server-lukasstiftung#kjp' \
      --disk main /dev/sda
@@ -36,6 +36,15 @@ into the NixOS installer — handy when you only have SSH to an existing OS).
 
    `--disk main /dev/sda` maps the disko disk named `main` to the real device — change
    `/dev/sda` to `/dev/nvme0n1` etc. if needed; no file edit required.
+
+   > **`--refresh` matters.** Nix caches the GitHub flake tarball for ~1h. Without
+   > `--refresh` a re-run after a `git push` silently reuses the **old** config. To be
+   > certain, pin the commit instead:
+   > `--flake 'github:mortegro/kjp-server-lukasstiftung/<commit-sha>#kjp'`.
+   >
+   > Sanity-check the trace before rebooting: it must show `--typecode=1:EF02` on a
+   > **1M** partition and **GRUB** installed to the disk — *not* a 512M `EF00` ESP or
+   > `systemd-bootx64.efi` (that's the old UEFI layout, which won't boot this BIOS VM).
 3. `reboot`. GRUB on `/dev/sda` boots the system in legacy/BIOS mode. Root and
    `matthias` passwords are baked in.
 
