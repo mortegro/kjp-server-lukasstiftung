@@ -1,21 +1,17 @@
 {
-  # Single-disk UEFI layout for a VMware guest.
+  # Single-disk BIOS (legacy boot) layout for a VMware guest.
   # VMware's default SCSI controller exposes the disk as /dev/sda.
-  # If you use NVMe change to /dev/nvme0n1; PVSCSI may also be /dev/sda.
+  # GPT with a 1M BIOS-boot partition (EF02) where GRUB embeds its core.img;
+  # no ESP because the firmware boots in legacy/CSM mode, not UEFI.
   disko.devices.disk.main = {
     device = "/dev/sda";
     type = "disk";
     content = {
       type = "gpt";
       partitions = {
-        ESP = {
-          size = "512M";
-          type = "EF00";
-          content = {
-            type = "filesystem";
-            format = "vfat";
-            mountpoint = "/boot";
-          };
+        boot = {
+          size = "1M";
+          type = "EF02"; # BIOS boot partition (GRUB core.img embed)
         };
         root = {
           size = "100%";

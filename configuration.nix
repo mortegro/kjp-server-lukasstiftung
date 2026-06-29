@@ -17,9 +17,13 @@
       ./hardware-configuration.nix
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader (BIOS / legacy boot — GRUB embedded in the EF02 partition).
+  # disko sets boot.loader.grub.devices from the EF02 partition's disk, so
+  # we only enable GRUB here; setting `device` too would duplicate /dev/sda.
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = false;
+  };
 
   # Grow the last (root) partition to fill the whole disk at boot, then
   # resize the root filesystem to match. Lets a VMware disk be enlarged

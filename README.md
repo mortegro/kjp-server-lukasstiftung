@@ -6,16 +6,24 @@ The flake defines two things:
 - **`kjp`** — the real system, with declarative disk layout (disko) and passwords.
 - **`installer`** — a bootable live ISO that carries this flake and installs `kjp` in one command.
 
-Disk layout (`disko.nix`): single GPT disk → 512 MB ESP (`/boot`) + rest ext4 (`/`).
+Disk layout (`disko.nix`): single **GPT** disk → 1 MB BIOS-boot partition (`EF02`,
+GRUB core.img) + rest ext4 (`/`). **BIOS / legacy boot** (GRUB on the disk), not UEFI —
+the VMware guest boots in CSM/legacy mode.
 
 ---
 
-## Install (easiest: stock ISO + `disko-install`)
+## Install (proven: `disko-install` from the flake)
 
-No custom ISO needed. `disko-install` partitions, formats, mounts **and** installs in a single command.
+No custom ISO needed. `disko-install` partitions, formats, mounts **and** installs in a
+single command, pulling the flake straight from GitHub. This is how kjp was installed
+(works from the official ISO **or** an in-place [kexec](https://nixos.wiki/wiki/Kexec)
+into the NixOS installer — handy when you only have SSH to an existing OS).
 
-1. Boot the official **NixOS minimal ISO** in the VM
-   (https://channels.nixos.org/nixos-26.05/latest-nixos-minimal-x86_64-linux.iso).
+1. Get into a NixOS installer environment:
+   - Boot the official **NixOS minimal ISO** in the VM
+     (https://channels.nixos.org/nixos-26.05/latest-nixos-minimal-x86_64-linux.iso), **or**
+   - `kexec` into the installer from a running system (no media/console needed).
+
    Networking comes up via DHCP automatically.
 2. `sudo -i`, then run (⚠️ **wipes the target disk** — check the device with `lsblk`):
 
@@ -28,7 +36,8 @@ No custom ISO needed. `disko-install` partitions, formats, mounts **and** instal
 
    `--disk main /dev/sda` maps the disko disk named `main` to the real device — change
    `/dev/sda` to `/dev/nvme0n1` etc. if needed; no file edit required.
-3. `reboot`, detach the ISO. Done. Root and `matthias` passwords are baked in.
+3. `reboot`. GRUB on `/dev/sda` boots the system in legacy/BIOS mode. Root and
+   `matthias` passwords are baked in.
 
 ## Install (custom self-installing ISO)
 
