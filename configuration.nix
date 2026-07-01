@@ -95,6 +95,7 @@
   services.openssh.enable = true;
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.liveRestore = false; # incompatible with swarm mode (Dokploy)
   programs.extra-container.enable = true;
 
   # VMware guest optimizations: installs open-vm-tools and enables the
