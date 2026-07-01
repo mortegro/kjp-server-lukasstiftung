@@ -100,6 +100,23 @@
   virtualisation.docker.liveRestore = false; # incompatible with swarm mode (Dokploy)
   programs.extra-container.enable = true;
 
+  # Dokploy (self-hosted PaaS), declarative via the nix-dokploy flake input.
+  # `image` is pinned so `nixos-rebuild switch` reliably deploys the version below
+  # (bump manually to update Dokploy; `nix flake lock --update-input nix-dokploy`
+  # only updates the module itself, not this pin).
+  #
+  # Before the first deploy, create these two secret files on the host (root-only):
+  #   mkdir -p /var/lib/secrets
+  #   openssl rand -base64 32 > /var/lib/secrets/dokploy-db-password
+  #   openssl rand -base64 32 > /var/lib/secrets/dokploy-auth-secret
+  #   chmod 600 /var/lib/secrets/dokploy-*
+  services.dokploy = {
+    enable = true;
+    image = "dokploy/dokploy:v0.29.8"; # latest as of 2026-07-01
+    database.passwordFile = "/var/lib/secrets/dokploy-db-password";
+    auth.secretFile = "/var/lib/secrets/dokploy-auth-secret";
+  };
+
   # VMware guest optimizations: installs open-vm-tools and enables the
   # guest daemon (time sync, graceful shutdown, clipboard/drag-and-drop,
   # automatic screen resizing).
