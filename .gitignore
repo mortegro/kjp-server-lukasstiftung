@@ -1,3 +1,5 @@
 result
 result-*
+
+# SMB credentials — never commit
 smb-secrets

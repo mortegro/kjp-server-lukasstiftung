@@ -234,18 +234,16 @@ services.samba = {
     openFirewall = true;
   };
 
-  # --- SMB client: automount \\192.168.100.237\kjp$\LUKAS\bolmat ---
+  # --- SMB client: automount \\192.168.100.237\kjp$ (LUKAS\bolmat is a subfolder) ---
   # Credentials are kept out of the nix store (which is world-readable) in
   # /etc/nixos/smb-secrets. Create it manually on the host, root-only:
   #   printf 'username=bolmat\npassword=CHANGEME\ndomain=LUKAS\n' > /etc/nixos/smb-secrets
   #   chmod 600 /etc/nixos/smb-secrets
   fileSystems."/mnt/smb/kjp" = {
-    device = "//192.168.100.237/kjp$/LUKAS/bolmat";
+    device = "//192.168.100.237/kjp$";
     fsType = "cifs";
     options = [
       "credentials=/etc/nixos/smb-secrets"
-      "uid=1000"
-      "gid=1000"
       "iocharset=utf8"
       "_netdev"
       "x-systemd.automount"
