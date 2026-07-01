@@ -77,6 +77,16 @@
   networking.networkmanager.enable = true;
   networking.hostName = "kjp"; # Define your hostname.
 
+  # Static IP on ens160 (excluded from NetworkManager so scripted config below applies).
+  networking.networkmanager.unmanaged = [ "ens160" ];
+  networking.useDHCP = false;
+  networking.interfaces.ens160.ipv4.addresses = [{
+    address = "192.168.100.197";
+    prefixLength = 24;
+  }];
+  networking.defaultGateway = "192.168.100.254";
+  networking.nameservers = [ "1.1.1.1" "192.168.100.254" ];
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
