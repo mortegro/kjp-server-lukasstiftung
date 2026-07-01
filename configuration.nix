@@ -58,8 +58,8 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    # VMware SVGA video driver (modesetting works too, but this matches the guest).
-    videoDrivers = [ "vmware" ];
+    # vmware driver is broken in this nixpkgs rev (vgaHWGetIndex ABI mismatch); modesetting works fine on VMware SVGA.
+    videoDrivers = [ "modesetting" ];
     # Enable the XFCE Desktop Environment.
     displayManager.lightdm.enable = true;
     desktopManager.xfce.enable = true;
@@ -151,6 +151,7 @@
     docker-compose
     httm
     cifs-utils
+    iproute2
   ];
 
   # Or disable the firewall altogether.
