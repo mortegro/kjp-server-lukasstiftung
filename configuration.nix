@@ -1,3 +1,4 @@
+
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -116,6 +117,9 @@
     database.passwordFile = "/var/lib/secrets/dokploy-db-password";
     auth.secretFile = "/var/lib/secrets/dokploy-auth-secret";
   };
+  systemd.services.dokploy-stack.serviceConfig.TimeoutStartSec = "600";
+  systemd.services.dokploy-traefik.serviceConfig.TimeoutStartSec = "300";
+  
 
   # VMware guest optimizations: installs open-vm-tools and enables the
   # guest daemon (time sync, graceful shutdown, clipboard/drag-and-drop,
