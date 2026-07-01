@@ -153,6 +153,7 @@
     httm
     cifs-utils
     iproute2
+    openssl
   ];
 
   # Or disable the firewall altogether.
