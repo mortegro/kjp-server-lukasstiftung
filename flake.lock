@@ -46,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779887420,
-        "narHash": "sha256-fUO/r/qQlmeDUgKM9L83cod/VCvU9LtXW7SNQXexXFU=",
+        "lastModified": 1793277624,
+        "narHash": "sha256-MTQSSDg+Pe+/VIl5drZ6814mUii6LNHYPU8gCrVxLqw=",
         "owner": "el-kurto",
         "repo": "nix-dokploy",
-        "rev": "9b04a58467be7b0f633492602c9eb02321c380b1",
+        "rev": "ef67160372989d1bc369e4acd2aff4b87d68956a",
         "type": "github"
       },
       "original": {

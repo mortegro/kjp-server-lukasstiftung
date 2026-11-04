@@ -106,16 +106,20 @@
   # (bump manually to update Dokploy; `nix flake lock --update-input nix-dokploy`
   # only updates the module itself, not this pin).
   #
-  # Before the first deploy, create these two secret files on the host (root-only):
+  # Before the first deploy, create these secret files on the host (root-only):
   #   mkdir -p /var/lib/secrets
   #   openssl rand -base64 32 > /var/lib/secrets/dokploy-db-password
   #   openssl rand -base64 32 > /var/lib/secrets/dokploy-auth-secret
+  #   openssl rand -hex 32 > /var/lib/secrets/dokploy-encryption-key
   #   chmod 600 /var/lib/secrets/dokploy-*
+  # The encryption key encrypts env variables at rest (Dokploy >= v0.29.12): never
+  # rotate it, and keep an offsite copy — DB backups are unreadable without it.
   services.dokploy = {
     enable = true;
-    image = "dokploy/dokploy:v0.29.8"; # latest as of 2026-07-01
+    image = "dokploy/dokploy:v0.30.10"; # latest as of 2026-11-04
     database.passwordFile = "/var/lib/secrets/dokploy-db-password";
     auth.secretFile = "/var/lib/secrets/dokploy-auth-secret";
+    encryption.keyFile = "/var/lib/secrets/dokploy-encryption-key";
   };
   systemd.services.dokploy-stack.serviceConfig.TimeoutStartSec = "600";
   systemd.services.dokploy-traefik.serviceConfig.TimeoutStartSec = "300";
