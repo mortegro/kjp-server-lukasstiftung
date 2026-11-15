@@ -253,6 +253,10 @@ services.samba = {
       "x-systemd.automount"
       "noauto"
       "x-systemd.idle-timeout=60"
+      "uid=1000"
+      "gid=100"
+      "file_mode=0664"
+      "dir_mode=0775"
     ];
   };
 
